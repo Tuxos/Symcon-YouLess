@@ -16,7 +16,7 @@
 		parent::ApplyChanges();
 
 		$this->RegisterProfile(1,"Watt.YouLess", "Plug", "", " W", 0, 8000, 1);
-		$this->RegisterProfile(2,"kWatt.Youless", "Electricity", "", " kW", 0, "", 1);
+		$this->RegisterProfile(2,"kWatt.Youless", "Electricity", "", " kW", 0, 0, 1);
 
 		$this->RegisterVariableInteger("currentpower", "Aktuelle Leistung", "Watt.YouLess",1);
 		$this->RegisterVariableInteger("signalstrength", "Signalstärke", "~Intensity.100",2);
