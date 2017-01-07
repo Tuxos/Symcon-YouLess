@@ -1,0 +1,14 @@
+{
+    "id": "{C0991618-A5B3-453D-8415-74BF672CFDE6}",
+    "name": "YouLessLS110",
+    "type": 3,
+    "vendor": "YouLess",
+    "aliases":
+    [
+        "YouLess LS110"
+    ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "YL"
+}
