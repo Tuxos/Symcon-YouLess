@@ -148,7 +148,7 @@
 			$meteryesterday = $meteryesterday + $data->val[$i];
 			$i = $i + 1;
 		}
-		SetValue(IPS_GetObjectIDByName("Verbrauch gestern", $this->InstanceID), $meteryesterday);
+		SetValue(IPS_GetObjectIDByName("Verbrauch gestern", $this->InstanceID), $meteryesterday/1000);
 
 		return $return;
 
