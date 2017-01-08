@@ -8,6 +8,7 @@
 
 		$this->RegisterPropertyString("ipadress", "");
 		$this->RegisterPropertyInteger("intervall", "20");
+		$this->RegisterPropertyFloat("price" "22,49")
 
 	}
 
@@ -18,6 +19,7 @@
 		$this->RegisterProfileInteger("Watt.YouLess", "Plug", "", " Watt", 0, 8000, 1);
 		$this->RegisterProfileFloat("kWatt-counter.Youless", "Electricity", "", " kWh", 0, 0, 1, 3);
 		$this->RegisterProfileFloat("kWatt-day.Youless", "Electricity", "", " kWh", 0, 0, 1, 1);
+		$this->RegisterProfileFloat("kWh-euro.Youless", "Euro", "", " €", 0, 0, 1, 2);
 
 		$this->RegisterVariableInteger("currentpower", "Aktuelle Leistung", "Watt.YouLess",1);
 		$this->RegisterVariableInteger("signalstrength", "Signalstärke", "~Intensity.100",2);
@@ -25,10 +27,11 @@
 
 		IPS_SetHidden($this->RegisterVariableFloat("meterbeginningofmonth", "Zählerstand anfang des Monats", "kWatt-counter.Youless",4), true);
 		$this->RegisterVariableFloat("yesterday", "Verbrauch gestern", "kWatt-day.Youless",5);
-		$this->RegisterVariableFloat("today", "Verbrauch heute", "kWatt-day.Youless",6);
-		IPS_SetHidden($this->RegisterVariableFloat("meteryesterday", "Zählerstand gestern", "kWatt-day.Youless",7), true);
-		$this->RegisterVariableFloat("meterlastmonth", "Verbrauch letzter Monat", "kWatt-day.Youless",8);
-		$this->RegisterVariableFloat("meterreading", "Zählerstand", "kWatt-counter.Youless",9);
+		$this->RegisterVariableFloat("priceyesterday", "Kosten gestern", "kWh-euro.Youless",6);
+		$this->RegisterVariableFloat("today", "Verbrauch heute", "kWatt-day.Youless",7);
+		IPS_SetHidden($this->RegisterVariableFloat("meteryesterday", "Zählerstand gestern", "kWatt-day.Youless",8), true);
+		$this->RegisterVariableFloat("meterlastmonth", "Verbrauch letzter Monat", "kWatt-day.Youless",9);
+		$this->RegisterVariableFloat("meterreading", "Zählerstand", "kWatt-counter.Youless",10);
 
 		$this->RegisterTimer('ReadData', $this->ReadPropertyInteger("intervall"), 'YL_readdata($id)');
 
@@ -151,6 +154,18 @@
 		SetValue(IPS_GetObjectIDByName("Verbrauch gestern", $this->InstanceID), $meteryesterday/1000);
 
 		return $return;
+
+		}
+
+	// Berechne Kosten
+	public function price() {
+
+		$meteryesterday = GetValue(IPS_GetObjectIDByName("Verbrauch gestern",$this->InstanceID));
+
+		SetValue(GetValue(IPS_GetObjectIDByName("Kosten gestern",$this->InstanceID), $meteryesterday*$this->ReadPropertyString("price"));
+
+
+
 
 		}
 

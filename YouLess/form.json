@@ -2,12 +2,14 @@
     "elements":
     [
         { "type": "ValidationTextBox" , "name" : "ipadress", "caption": "IP Adresse" },
-        { "type": "ValidationTextBox" , "name" : "intervall", "caption": "Aktual. Intervall" }
+        { "type": "ValidationTextBox" , "name" : "intervall", "caption": "Aktual. Intervall" },
+	   { "type": "ValidationTextBox" , "name" : "price", "caption": "Preis pro kWh in Cent" },
     ],
     "actions":
     [
 
-	{ "type": "Button", "label": "Lese Konfiguration ein", "onClick": "YL_readdata($id);" }
+	{ "type": "Button", "label": "Lese Konfiguration ein", "onClick": "YL_readdata($id);" },
+	{ "type": "Button", "label": "Berechne Kosten", "onClick": "YL_price($id);" }
 
     ],
     "status":
