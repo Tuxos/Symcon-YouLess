@@ -15,19 +15,20 @@
 
 		parent::ApplyChanges();
 
-		$this->RegisterProfile(1,"Watt.YouLess", "Plug", "", " Watt", 0, 8000, 1);
-		$this->RegisterProfile(2,"kWatt.Youless", "Electricity", "", " kWh", 0, 0, 1);
+		$this->RegisterProfileInteger("Watt.YouLess", "Plug", "", " Watt", 0, 8000, 1);
+		$this->RegisterProfileFloat("kWatt-counter.Youless", "Electricity", "", " kWh", 0, 0, 1, 3);
+		$this->RegisterProfileFloat("kWatt-day.Youless", "Electricity", "", " kWh", 0, 0, 1, 1);
 
 		$this->RegisterVariableInteger("currentpower", "Aktuelle Leistung", "Watt.YouLess",1);
 		$this->RegisterVariableInteger("signalstrength", "Signalstärke", "~Intensity.100",2);
-		$id = $this->RegisterVariableFloat("actualmonth", "Verbrauch aktueller Monat", "kWatt.Youless",3);
+		$id = $this->RegisterVariableFloat("actualmonth", "Verbrauch aktueller Monat", "kWatt-day.Youless",3);
 
-		IPS_SetHidden($this->RegisterVariableFloat("meterbeginningofmonth", "Zählerstand anfang des Monats", "kWatt.Youless",4), true);
-		$this->RegisterVariableFloat("yesterday", "Verbrauch gestern", "kWatt.Youless",5);
-		$this->RegisterVariableFloat("today", "Verbrauch heute", "kWatt.Youless",6);
-		IPS_SetHidden($this->RegisterVariableFloat("meteryesterday", "Zählerstand gestern", "kWatt.Youless",7), true);
-		$this->RegisterVariableFloat("meterlastmonth", "Verbrauch letzter Monat", "kWatt.Youless",8);
-		$this->RegisterVariableFloat("meterreading", "Zählerstand", "kWatt.Youless",9);
+		IPS_SetHidden($this->RegisterVariableFloat("meterbeginningofmonth", "Zählerstand anfang des Monats", "kWatt-counter.Youless",4), true);
+		$this->RegisterVariableFloat("yesterday", "Verbrauch gestern", "kWatt-day.Youless",5);
+		$this->RegisterVariableFloat("today", "Verbrauch heute", "kWatt-day.Youless",6);
+		IPS_SetHidden($this->RegisterVariableFloat("meteryesterday", "Zählerstand gestern", "kWatt-day.Youless",7), true);
+		$this->RegisterVariableFloat("meterlastmonth", "Verbrauch letzter Monat", "kWatt-day.Youless",8);
+		$this->RegisterVariableFloat("meterreading", "Zählerstand", "kWatt-counter.Youless",9);
 
 		$this->RegisterTimer('ReadData', $this->ReadPropertyInteger("intervall"), 'YL_readdata($id)');
 
@@ -70,23 +71,40 @@
 		}
 	}
 
-	// Erstelle Variablen Profil. $Type: 0=Boolean, 1=Integer, 2=Float, 3=String
-	protected function RegisterProfile($Type, $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize) {
+	// Erstelle Integer Variablen Profil
+	protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize) {
 
 		if(!IPS_VariableProfileExists($Name)) {
-			IPS_CreateVariableProfile($Name, $Type);
+			IPS_CreateVariableProfile($Name, 1);
 			} else {
 			$profile = IPS_GetVariableProfile($Name);
-			if($profile['ProfileType'] != $Type)
+			if($profile['ProfileType'] != 1)
 			throw new Exception("Variable profile type does not match for profile ".$Name);
 		}
 
 		IPS_SetVariableProfileIcon($Name, $Icon);
 		IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
 		IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
-		if ($Type == 2) IPS_SetVariableProfileDigits($Name, 3);
 
     }
+
+	// Erstelle Float Variablen Profil
+	protected function RegisterProfileFloat($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $deccount) {
+
+		if(!IPS_VariableProfileExists($Name)) {
+			IPS_CreateVariableProfile($Name, 2);
+			} else {
+			$profile = IPS_GetVariableProfile($Name);
+			if($profile['ProfileType'] != 2)
+			throw new Exception("Variable profile type does not match for profile ".$Name);
+		}
+
+		IPS_SetVariableProfileIcon($Name, $Icon);
+		IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
+		IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
+		IPS_SetVariableProfileDigits($Name, $deccount);
+
+   }
 
 
 	// Lese alle Konfigurationsdaten aus und schreibe sie in Variablen
@@ -114,10 +132,8 @@
 		$meterlastmonth = 0;
 		while ($data->val[$i] != "") {
 			$meterlastmonth = $meterlastmonth + $data->val[$i];
-			echo $data->val[$i]."\n";
 			$i = $i + 1;
 		}
-		echo $meterlastmonth."\n";
 		SetValue(IPS_GetObjectIDByName("Verbrauch letzter Monat", $this->InstanceID), $meterlastmonth);
 
 		return $return;
