@@ -162,7 +162,7 @@
 
 		$meteryesterday = GetValue(IPS_GetObjectIDByName("Verbrauch gestern",$this->InstanceID));
 
-		SetValue(GetValue(IPS_GetObjectIDByName("Kosten gestern",$this->InstanceID), $meteryesterday*$this->ReadPropertyString("price"));
+		SetValue(IPS_GetObjectIDByName("Kosten gestern",$this->InstanceID), $meteryesterday*$this->ReadPropertyString("price"));
 
 
 
