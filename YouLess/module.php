@@ -132,7 +132,7 @@
 		$meterlastmonth = 0;
 		while ($data->val[$i] != "") {
 			$meterlastmonth = $meterlastmonth + $data->val[$i];
-			echo $i.": ".$data->val[$i]."\n";
+			echo $i.": ".$data->val[$i]." = ".$meterlastmonth."\n";
 			$i = $i + 1;
 		}
 		SetValue(IPS_GetObjectIDByName("Verbrauch letzter Monat", $this->InstanceID), $meterlastmonth);
