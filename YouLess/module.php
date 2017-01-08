@@ -8,7 +8,7 @@
 
 		$this->RegisterPropertyString("ipadress", "");
 		$this->RegisterPropertyInteger("intervall", "20");
-		$this->RegisterPropertyFloat("price" "22,49");
+		$this->RegisterPropertyFloat("price", "22,49");
 
 	}
 
