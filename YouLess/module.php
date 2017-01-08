@@ -102,7 +102,7 @@
 		SetValue(IPS_GetObjectIDByName("Signalstärke", $this->InstanceID), $data->lvl);
 		SetValue(IPS_GetObjectIDByName("Zählerstand", $this->InstanceID), $data->cnt);
 
-		return $data;
+		$return = $data;
 
 		// Lese, berechne und schreibe historische Verbrauchsdaten (wenn vorhanden)
 		if (date("n") > 1) $month = date("n") - 1;
@@ -119,6 +119,8 @@
 		}
 		echo $meterlastmonth."\n";
 		SetValue(IPS_GetObjectIDByName("Verbrauch letzter Monat", $this->InstanceID), $meterlastmonth);
+
+		return $return;
 
 		}
 
