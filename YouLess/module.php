@@ -15,8 +15,8 @@
 
 		parent::ApplyChanges();
 
-		$this->RegisterProfile(1,"Watt.YouLess", "Plug", "", " W", 0, 8000, 1);
-		$this->RegisterProfile(2,"kWatt.Youless", "Electricity", "", " kW", 0, 0, 1);
+		$this->RegisterProfile(1,"Watt.YouLess", "Plug", "", " Watt", 0, 8000, 1);
+		$this->RegisterProfile(2,"kWatt.Youless", "Electricity", "", " kWh", 0, 0, 1);
 
 		$this->RegisterVariableInteger("currentpower", "Aktuelle Leistung", "Watt.YouLess",1);
 		$this->RegisterVariableInteger("signalstrength", "Signalstärke", "~Intensity.100",2);
@@ -70,7 +70,7 @@
 		}
 	}
 
-	// Erstelle Variablen Profil. $type: 0=Boolean, 1=Integer, 2=Float, 3=String
+	// Erstelle Variablen Profil. $Type: 0=Boolean, 1=Integer, 2=Float, 3=String
 	protected function RegisterProfile($Type, $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize) {
 
 		if(!IPS_VariableProfileExists($Name)) {
@@ -89,9 +89,10 @@
     }
 
 
-	// Lese alle Configurationsdaten aus und schreibe sie in Variablen
-        public function readdata() {
+	// Lese alle Konfigurationsdaten aus und schreibe sie in Variablen
+	public function readdata() {
 
+		// Lese & schreibe aktuelle Verbrauchsdaten
 		$ip = $this->ReadPropertyString("ipadress");
 		$url = "http://".$ip."/a?f=j";
 
@@ -101,7 +102,19 @@
 		SetValue(IPS_GetObjectIDByName("Signalstärke", $this->InstanceID), $data->lvl);
 		SetValue(IPS_GetObjectIDByName("Zählerstand", $this->InstanceID), $data->cnt);
 
-		return $data;
+		// Lese, berechne und schreibe historische Verbrauchsdaten (wenn vorhanden)
+		$month = date("n") - 1;
+		$url = "http://".$ip."/V?m=".$month."?f=j";
+		$data = json_decode(file_get_contents($url));
+
+		$i = 0;
+		$meterlastmonth = 0;
+		while ($data->val[$i] != "null") {
+			$i = $i + 1;
+			$meterlastmonth = $meterlastmonth + $data->val[$i];
+		}
+		echo $meterlastmonth;
+		print_r($data->val);
 
 		}
 
