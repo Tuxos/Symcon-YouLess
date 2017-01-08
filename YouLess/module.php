@@ -131,7 +131,7 @@
 		$i = 0;
 		$meterlastmonth = 0;
 		while ($data->val[$i] != "") {
-			$dayuse = str_replace(".",",", $data->val[$i];
+			$dayuse = str_replace(".",",", $data->val[$i]);
 			$meterlastmonth = $meterlastmonth + $dayuse;
 			echo $i.": ".$dayuse." = ".$meterlastmonth."\n";
 			$i = $i + 1;
