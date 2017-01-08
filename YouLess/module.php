@@ -122,7 +122,7 @@
 
 		$return = $data;
 
-		// Lese, berechne und schreibe historische Verbrauchsdaten (wenn vorhanden)
+		// Lese, berechne und schreibe historische Verbrauchsdaten (letzer Monat)
 		if (date("n") > 1) $month = date("n") - 1;
 		if (date("n") == 1) $month = 12;
 		$url = "http://".$ip."/V?m=".$month."?f=j";
@@ -133,10 +133,22 @@
 		while ($data->val[$i] != "") {
 			$dayuse = str_replace(",",".", $data->val[$i]);
 			$meterlastmonth = $meterlastmonth + $dayuse;
-			echo $i.": ".$dayuse." = ".$meterlastmonth."\n";
 			$i = $i + 1;
 		}
 		SetValue(IPS_GetObjectIDByName("Verbrauch letzter Monat", $this->InstanceID), $meterlastmonth);
+
+		// Lese, berechne und schreibe historische Verbrauchsdaten (gestern)
+
+		$url = "http://".$ip."/V?d=1?f=j";
+		$data = json_decode(file_get_contents($url));
+
+		$i = 0;
+		$meteryesterday = 0;
+		while ($data->val[$i] != "") {
+			$meteryesterday = $meteryesterday + $data->val[$i];
+			$i = $i + 1;
+		}
+		SetValue(IPS_GetObjectIDByName("Verbrauch gestern", $this->InstanceID), $meteryesterday);
 
 		return $return;
 
