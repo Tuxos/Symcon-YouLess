@@ -103,8 +103,8 @@
 		SetValue(IPS_GetObjectIDByName("Zählerstand", $this->InstanceID), $data->cnt);
 
 		// Lese, berechne und schreibe historische Verbrauchsdaten (wenn vorhanden)
-		if (data("n") > 1) $month = date("n") - 1;
-		if (data("n") = 1) $month = 12;
+		if (date("n") > 1) $month = date("n") - 1;
+		if (date("n") = 1) $month = 12;
 		echo $month."/n";
 		$url = "http://".$ip."/V?m=".$month."?f=j";
 		$data = json_decode(file_get_contents($url));
