@@ -102,10 +102,11 @@
 		SetValue(IPS_GetObjectIDByName("Signalstärke", $this->InstanceID), $data->lvl);
 		SetValue(IPS_GetObjectIDByName("Zählerstand", $this->InstanceID), $data->cnt);
 
+		return $data;
+
 		// Lese, berechne und schreibe historische Verbrauchsdaten (wenn vorhanden)
-		if (date("n") > 1) $month = date("n") - 1;
-		if (date("n") == 1) $month = 12;
-		echo $month."\n";
+		if (date("n") > 1) $month = date("n") - 1; else $month = 12;
+		//if (date("n") == 1) $month = 12;
 		$url = "http://".$ip."/V?m=".$month."?f=j";
 		$data = json_decode(file_get_contents($url));
 
