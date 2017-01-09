@@ -8,7 +8,7 @@
 
 		$this->RegisterPropertyString("ipadress", "");
 		$this->RegisterPropertyInteger("intervall", "20");
-		$this->RegisterPropertyFloat("price", "22,49");
+		$this->RegisterPropertyFloat("price", "26.76");
 
 	}
 
@@ -162,7 +162,7 @@
 
 		$meteryesterday = GetValue(IPS_GetObjectIDByName("Verbrauch gestern",$this->InstanceID));
 
-		SetValue(IPS_GetObjectIDByName("Kosten gestern",$this->InstanceID), $meteryesterday*$this->ReadPropertyString("price"));
+		SetValue(IPS_GetObjectIDByName("Kosten gestern",$this->InstanceID), ($meteryesterday*$this->ReadPropertyString("price"))/100);
 
 
 
