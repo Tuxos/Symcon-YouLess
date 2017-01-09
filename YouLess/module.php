@@ -162,7 +162,7 @@
 
 		$meteryesterday = GetValue(IPS_GetObjectIDByName("Verbrauch gestern",$this->InstanceID));
 
-		SetValue(IPS_GetObjectIDByName("Kosten gestern",$this->InstanceID), ($meteryesterday*$this->ReadPropertyString("price"))/100);
+		SetValue(IPS_GetObjectIDByName("Kosten gestern",$this->InstanceID), ($meteryesterday*$this->ReadPropertyFloat("price"))/100);
 
 
 
