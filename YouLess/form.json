@@ -3,7 +3,8 @@
     [
         { "type": "ValidationTextBox" , "name" : "ipadress", "caption": "IP Adresse" },
         { "type": "ValidationTextBox" , "name" : "intervall", "caption": "Aktual. Intervall" },
-	   { "type": "ValidationTextBox" , "name" : "price", "caption": "Preis pro kWh in Cent" },
+	   { "type": "ValidationTextBox" , "name" : "price", "caption": "Preis kWh/Cent" },
+	   { "type": "ValidationTextBox" , "name" : "pricemonth", "caption": "Monatlicher Grundpreis" }
     ],
     "actions":
     [
